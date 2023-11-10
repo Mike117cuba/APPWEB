@@ -1,0 +1,42 @@
+{% extends "base.html" %} 
+
+{% block title %}
+Contacto
+{% endblock %}
+
+{% block content %}
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="post">
+      {{ form.hidden_tag() }}
+      <label for="nombre">Nombre</label><br>
+      {{ form.nombre() }}<br>
+      
+      <label for="apellidos">Apellidos</label><br>
+      {{ form.apellidos() }}<br>
+      
+      <label for="email">Correo Electrónico*</label><br>
+      {{ form.email() }}<br>
+      
+      <label for="telefono">Número de teléfono móvil</label><br>
+      {{ form.telefono() }}<br>
+      
+      <label for="asunto">Asunto</label><br>
+      {{ form.asunto() }}<br>
+      
+      <label for="mensaje">Mensaje</label><br>
+      {{ form.mensaje() }}<br>
+      
+      <input type="submit" value="Enviar">
+    </form>
+</body>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends "base.html" %} 
+
+{% block title %}
+Base de Datos
+{% endblock %}
+
+{% block additional_styles %}
+<style>
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <h2>Base de Datos</h2>
+    <select id="selectDatabase">
+        <option value="data0">Registro de Temperatura</option>
+        <option value="data1">PID</option>
+        <option value="data2">Accesos</option>
+        <option value="data3">Accesos Denegados</option>
+    </select>
+        <div class="container" id="data0" style="display:none;">
+            <button onclick="window.location.href='/download-csv/temperature_data'">Descargar Registro de Temperatura</button>
+            <table border="1" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tiempo</th>
+                        <th>Setpoint</th>
+                        <th>Sensor1</th>
+                        <th>Sensor2</th>
+                        <th>Sensor3</th>
+                        <th>Sensor4</th>
+                        <th>Sensor5</th>
+                        <th>Sensor6</th>
+                        <th>Sensor7</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in data %}
+                    <tr>
+                        <td>{{ record['time'] }}</td>
+                        <td>{{ record['setpoint'] }}</td>
+                        <td>{{ record['sensor1'] }}</td>
+                        <td>{{ record['sensor2'] }}</td>
+                        <td>{{ record['sensor3'] }}</td>
+                        <td>{{ record['sensor4'] }}</td>
+                        <td>{{ record['sensor5'] }}</td>
+                        <td>{{ record['sensor6'] }}</td>
+                        <td>{{ record['sensor7'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container" id="data1" style="display:none;">
+            <button onclick="window.location.href='/download-csv/temperature_data?variant=pid'">Descargar PID</button>
+            <table border="1" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tiempo</th>
+                        <th>Setpoint</th>
+                        <th>Sensor1</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in data %}
+                    <tr>
+                        <td>{{ record['time'] }}</td>
+                        <td>{{ record['setpoint'] }}</td>
+                        <td>{{ record['sensor1'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container" id="data2" style="display:none;">
+            <button onclick="window.location.href='/download-csv/users'">Descargar Accesos</button>
+            <table border="1" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tiempo</th>
+                        <th>Nombre</th>
+                        <th>Contraseña</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in data1 %}
+                    <tr>
+                        <td>{{ record['timestamp'] }}</td>
+                        <td>{{ record['name'] }}</td>
+                        <td>{{ record['password'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="container" id="data3" style="display:none;">
+            <button onclick="window.location.href='/download-csv/wrongaccess'">Descargar Accesos Denegados</button>
+            <table border="1" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tiempo</th>
+                        <th>Nombre</th>
+                        <th>Contraseña</th>
+                        <th>Tipo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in data2 %}
+                    <tr>
+                        <td>{{ record['timestamp'] }}</td>
+                        <td>{{ record['username'] }}</td>
+                        <td>{{ record['pass'] }}</td>
+                        <td>{{ record['type'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+            
+
+    </select>
+
+    
+    </div>
+        
+</div>
+
+<script>
+    document.getElementById("selectDatabase").addEventListener("change", function() {
+        let selectedValue = this.value;
+        
+        // Ocultar todas las tablas
+        document.getElementById("data0").style.display = "none";
+        document.getElementById("data1").style.display = "none";
+        document.getElementById("data2").style.display = "none";
+        document.getElementById("data3").style.display = "none";
+        // Mostrar la tabla seleccionada
+        document.getElementById(selectedValue).style.display = "block";
+    });
+</script>
+{% endblock %}

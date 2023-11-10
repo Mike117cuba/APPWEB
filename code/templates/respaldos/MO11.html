@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+    {% block additional_styles %}
+    <style>
+        .table {
+        width: 21%; /* Se deja un pequeño margen para evitar problemas de ajuste */
+        }
+
+        .graph {
+        width: 75%;
+        }
+
+        .setpoint-section {
+        width: 65%;
+        margin-top: 2em; /* Añade un margen superior de 2em */
+        text-align: center; /* Centra el contenido horizontalmente */
+        }
+    </style>
+    {% endblock %}
+
+{% block content %}
+<!-- Contenido Principal -->
+
+    <div class="container" style="max-width: 100%; margin-left: 0.5cm; text-align: center; vertical-align: middle;">
+
+        <!-- tabla -->
+        <div class="table">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Elemento</th>
+                    <th style="white-space: nowrap;">Temperatura °C</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Setpoint</td>
+                    <td id="setpointValue"><!-- Valor del setpoint --></td>
+                </tr>
+                <tr>
+                    <td>Sensor 1</td>
+                    <td id="sensor1Value"><!-- Valor del sensor 1 --></td>
+                </tr>
+                <tr>
+                    <td>Sensor 2</td>
+                    <td id="sensor2Value"><!-- Valor del sensor 2 --></td>
+                </tr>
+                <tr>
+                    <td>Sensor 3</td>
+                    <td id="sensor3Value"><!-- Valor del sensor 3 --></td>
+                </tr>
+                <tr>
+                    <td>Sensor 4</td>
+                    <td id="sensor4Value"><!-- Valor del sensor 4 --></td>
+                </tr>
+                <tr>
+                    <td>Sensor 5</td>
+                    <td id="sensor5Value"><!-- Valor del sensor 5 --></td>
+                </tr>
+                <tr>
+                    <td>Sensor 6</td>
+                    <td id="sensor6Value"><!-- Valor del sensor 6 --></td>
+                </tr>
+                <tr>
+                    <td>Sensor 7</td>
+                    <td id="sensor7Value"><!-- Valor del sensor 7 --></td>
+                </tr>
+            
+            </tbody>
+        </table>
+        </div>
+
+
+
+           <!-- Gráfica  -->
+        <div class="graph">
+            <div class="graph" style="margin-top: 55px; margin-left: 40px;"> 
+                <div id="temperatureChart" style="height: 400px;">
+            
+                 <canvas id="temperatureCanvas"></canvas>
+
+                 <script>
+                    // Datos iniciales para la gráfica
+                    var labels = []; 
+                    var data = []; 
+                                
+                    // Configuración inicial de la gráfica
+                    var ctx = document.getElementById('temperatureCanvas').getContext('2d');
+                    var temperatureChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Temperatura',
+                                data: data,
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                fill: false,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                x: {
+                                    type: 'linear',
+                                    position: 'bottom'
+                                }
+                            }
+                        }
+                    
+                    });
+                            
+                    // Función para actualizar la gráfica con datos reales de la base de datos
+                    function updateGraph() {
+                        $.ajax({
+                            url: "/latest_data_for_graph",   // URL de tu endpoint que devuelve los datos de temperatura
+                            method: "GET",
+                            dataType: "json",
+                            success: function(response) {
+                                // Directamente usamos los datos de respuesta para actualizar la gráfica
+                                labels.length = 0;  // Vaciamos el array
+                                data.length = 0;    // Vaciamos el array
+                                
+                                Array.prototype.push.apply(labels, response.labels);  // Añade las nuevas etiquetas
+                                Array.prototype.push.apply(data, response.values);  // Añade los nuevos valores de temperatura
+                                
+                                temperatureChart.update();
+                            },
+                            error: function(error) {
+                                console.log("Error al obtener los datos:", error);
+                            }
+                        });
+                    }
+                
+                    // Actualiza la gráfica cada 3 segundos
+                    setInterval(updateGraph, 3000);
+                
+                 </script>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Área para actualizar Setpoint -->
+        <div class="setpoint-section text-center mt-auto">
+            
+                <div style="margin-top: 5px; text-align:center;"> 
+                    <h3>Actualizar Setpoint</h3>
+                    <form action="/update_setpoint" method="post">
+                        <div class="form-group">
+                            <label for="setpoint">Nuevo Setpoint:</label>
+                            <input type="number" class="form-control" id="setpoint" name="setpoint" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                    </form>
+                </div>
+            
+        </div>
+
+<script>
+    $(document).ready(function() {
+        function updateSensorValues() {
+            $.ajax({
+                url: "/latest_data",   // Cambiado a la nueva ruta
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    $('#setpointValue').text(data.setpoint || "0");
+                    $('#sensor1Value').text(data.sensor1 || "N/A");
+                    $('#sensor2Value').text(data.sensor2 || "N/A");
+                    $('#sensor3Value').text(data.sensor3 || "N/A");
+                    $('#sensor4Value').text(data.sensor4 || "N/A");
+                    $('#sensor5Value').text(data.sensor5 || "N/A");
+                    $('#sensor6Value').text(data.sensor6 || "N/A");
+                    $('#sensor7Value').text(data.sensor7 || "N/A");
+                  
+                    setTimeout(updateSensorValues, 3000); // Actualizar cada 3 segundos
+                },
+                error: function(error) {
+                    console.log("Error al obtener los datos:", error);
+                }
+            });
+        }
+        
+        updateSensorValues(); // Llamada inicial
+    });
+</script>
+  
+
+{% endblock %}

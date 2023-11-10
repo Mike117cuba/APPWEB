@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+
+  mongodb:
+    image: mongo:latest
+    container_name: proyecto-mongodb
+    ports:
+      - "27017:27017"  # Mapea el puerto de MongoDB
+    networks:
+      - proyecto-network
+
+
+
+  flask-app:
+    build:
+      context: ./code # Carpeta donde se encuentra tu aplicación Flask
+      dockerfile: Dockerfile
+    container_name: proyecto-flask-app
+    ports:
+      - "5000:5000"  # Mapea el puerto de Flask
+    environment:
+      MONGO_URI: "mongodb://mongodb:27017/proyecto"
+      FLASK_APP: "app:app"
+  
+    depends_on:
+      - mongodb  # Espera a que el servicio "mongodb" esté en funcionamiento
+    networks:
+      - proyecto-network
+          
+
+networks:
+  proyecto-network:
+    driver: bridge

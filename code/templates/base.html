@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Plataforma de monitoreo y control de temperatura{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        .login-page-body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+           
+        }
+        #sidebar {
+            background-color: #4f4e4e;
+            color: rgb(6, 4, 4);
+        }
+        #titlebar {
+        background-color: #797272;
+        color: white;
+        padding: 15px 0;
+        height: 125px;
+        display: flex;
+        align-items: center; /* Centrar el contenido verticalmente */
+        position: relative; /* Establecer como contenedor relativo para el logo posicionado absolutamente */
+        }
+        #titlebar h1 {
+        font-size: 2em;
+        margin-left: +320px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 700;
+        }
+        #logo_uaq {
+        position: absolute; /* Posicionamiento absoluto con respecto a su contenedor padre (#titlebar) */
+        top: 25px; /* Posición desde la parte superior del contenedor */
+        left: 20px; /* Posición desde la parte derecha del contenedor */
+        width: auto; /* Establecer un ancho automático basado en las dimensiones de la imagen */
+        max-width: 300px; /* Un ancho máximo para la imagen */
+        height: auto; /* Establecer una altura automática para mantener las proporciones de la imagen */
+        max-height: 150px; /* Una altura máxima para la imagen */
+        }
+
+        #sidebar .nav-link {
+        color: white;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        }
+
+        body, .container, .container-fluid {
+        margin: 0;
+        padding: 0;
+        } 
+    </style>
+    {% block additional_styles %}{% endblock %}
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div id="titlebar" class="text-center" style="max-width: 100%; text-align: center; vertical-align: middle; display: flex; justify-content: center; align-items: center;">
+            <h1>{% block header %}Plataforma de Monitoreo y Control de Temperatura{% endblock %}</h1>
+            <a href="https://ingenieria.uaq.mx/" target="_blank" rel="noopener noreferrer">
+                <img id="logo_uaq" src="static/images/logo_uaq.png" alt="Logo de la Universidad">
+        </div>
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-2 col-lg-2 d-md-block bg-dark sidebar">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link active" href="/MO">INICIO</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="/Gemelo_digital">GEMELO DIGITAL</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/base_de_datos">BASE DE DATOS</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/reportes">REPORTES</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/faq">PREGUNTAS FRECUENTES</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/contact">CONTACTO</a></li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <!-- Contenido principal -->
+            <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="max-width: 100%; text-align: center; vertical-align: middle; display: flex; justify-content: center; align-items: center;">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+ 
+</body>
+</html>

@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block additional_styles %}
+<style>
+    .content-wrapper {
+        display: flex; /* Se utiliza flex para alinear el contenido en la misma línea */
+        /* justify-content: space-between; Se distribuyen los elementos con un espacio entre ellos */
+        align-items: start; /* Se alinean los elementos al inicio, es decir, en la parte superior */
+    }
+    .actualizar-setpoint-wrapper {
+        display: flex;         /* Activa flexbox */
+        justify-content: center; /* Centra los elementos horizontalmente */
+        align-items: center;  /* Centra los elementos verticalmente */
+    }
+
+    .table {
+        
+        justify-content: left;
+        flex: 0.2; /* Se define un tamaño proporcional para la tabla */
+    }
+
+    .graph {
+        
+        justify-content: right;
+        flex: 0.75; /* Se define un tamaño proporcional para la gráfica */
+        margin-top: -35px;   /* Mueve la gráfica 20px hacia arriba */
+        /*margin-right: -50px;*/
+    }
+    
+    .setpoint-section {
+        width: 65%;
+        margin-top: 2em;
+        text-align: center;
+        background-color: white;
+        width: 300px;
+        padding: 20px;
+        border: 1px solid #e0e0e0;
+        justify-content: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Contenido Principal -->
+
+
+<div class="container" style="max-width: 100%; margin-left: 0.5cm; text-align: center; vertical-align: middle;">
+
+    <div class="content-wrapper">
+
+        <!-- tabla -->
+        <div class="table">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Elemento</th>
+                        <th style="white-space: nowrap;">Temperatura °C</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable-row" data-sensor="setpoint">
+                        <td>Setpoint</td>
+                        <td id="setpointValue"><!-- Valor del setpoint --></td>
+                    </tr>
+                    <tr class="clickable-row" data-sensor="pid">
+                        <td>PID</td>
+                        <td id="pidValue"><!-- Valor del sensor 1 --></td>
+                    </tr>
+                    <tr class="clickable-row" data-sensor="sensor1">
+                        <td>Sensor 1</td>
+                        <td id="sensor1Value"><!-- Valor del sensor 1 --></td>
+                    </tr>
+                    <tr class="clickable-row" data-sensor="sensor2">
+                        <td>Sensor 2</td>
+                        <td id="sensor2Value"><!-- Valor del sensor 2 --></td>
+                    </tr>
+                    <tr class="clickable-row" data-sensor="sensor3">
+                        <td>Sensor 3</td>
+                        <td id="sensor3Value"><!-- Valor del sensor 3 --></td>
+                    </tr>
+                    <tr class="clickable-row" data-sensor="sensor4">
+                        <td>Sensor 4</td>
+                        <td id="sensor4Value"><!-- Valor del sensor 4 --></td>
+                    </tr>
+                    <tr class="clickable-row" data-sensor="sensor5">
+                        <td>Sensor 5</td>
+                        <td id="sensor5Value"><!-- Valor del sensor 5 --></td>
+                    </tr>
+                    <tr class="clickable-row" data-sensor="sensor6">
+                        <td>Sensor 6</td>
+                        <td id="sensor6Value"><!-- Valor del sensor 6 --></td>
+                    </tr>
+                    <tr class="clickable-row" data-sensor="sensor7">
+                        <td>Sensor 7</td>
+                        <td id="sensor7Value"><!-- Valor del sensor 7 --></td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Gráfica  -->
+        <div class="graph">
+            <canvas id="temperatureCanvas" style="height: 400px;"></canvas>
+        </div>
+
+    </div>
+
+    <div class="actualizar-setpoint-wrapper">
+        <div class="setpoint-section text-center mt-auto">
+            <div style="margin-top: 5px; text-align:center;"> 
+                <h3>Actualizar Setpoint</h3>
+                <form action="/update_setpoint" method="post">
+                    <div class="form-group">
+                        <label for="setpoint">Nuevo Setpoint:</label>
+                        <input type="number" class="form-control" id="setpoint" name="setpoint" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/temperatureChart.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sensorUI.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+       
+        });
+    </script>
+
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Base de Datos</title>
+</head>
+<body>
+
+<h2>Registros de Temperatura</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Tiempo</th>
+            <th>Setpoint</th>
+            <th>Sensor1</th>
+            <th>Sensor2</th>
+            <th>Sensor3</th>
+            <th>Sensor4</th>
+            <th>Sensor5</th>
+            <th>Sensor6</th>
+            <th>Sensor7</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in data %}
+        <tr>
+            <td>{{ record['time'] }}</td>
+            <td>{{ record['setpoint'] }}</td>
+            <td>{{ record['sensor1'] }}</td>
+            <td>{{ record['sensor2'] }}</td>
+            <td>{{ record['sensor3'] }}</td>
+            <td>{{ record['sensor4'] }}</td>
+            <td>{{ record['sensor5'] }}</td>
+            <td>{{ record['sensor6'] }}</td>
+            <td>{{ record['sensor7'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

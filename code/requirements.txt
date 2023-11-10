@@ -1,0 +1,10 @@
+Flask
+Flask-PyMongo
+Flask-Bcrypt
+pytz
+requests
+flask-wtf
+email_validator
+jinja2
+pdfkit
+wkhtmltopdf
