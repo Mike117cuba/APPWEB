@@ -83,6 +83,7 @@ $(document).ready(function() {
                     
                     window.temperatureChart.data.labels = data.label;
                     window.temperatureChart.data.datasets[0].data = data[valueKey];
+                    
                     // Asegúrate de eliminar el segundo conjunto de datos si existe
                     if (window.temperatureChart.data.datasets.length > 1) {
                         window.temperatureChart.data.datasets.pop();
